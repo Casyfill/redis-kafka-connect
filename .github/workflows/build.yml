@@ -50,7 +50,7 @@ jobs:
             build/reports/aggregate-tests/
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@4
         with:
           name: redis-kafka-connect
           path: core/redis-kafka-connect/build/confluent/redis-redis-kafka-connect-*.zip
