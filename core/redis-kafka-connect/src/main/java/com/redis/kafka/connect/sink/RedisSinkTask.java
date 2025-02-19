@@ -315,6 +315,7 @@ public class RedisSinkTask extends SinkTask {
 			log.info("Value is null for {}. Thumbstone?", sinkRecord.key());
 			return null;
 		}
+
 		if (value instanceof Struct) {
 			Map<byte[], byte[]> body = new LinkedHashMap<>();
 			Struct struct = (Struct) value;
