@@ -312,7 +312,7 @@ public class RedisSinkTask extends SinkTask {
 		Object value = sinkRecord.value();
 		// this clause is added to handle tombstones. Tombstones should
 		if (value == null) {
-			log.info("Value is null for {}", sinkRecord.key());
+			log.info("Value is null for {}. Thumbstone?", sinkRecord.key());
 			return null;
 		}
 		if (value instanceof Struct) {
