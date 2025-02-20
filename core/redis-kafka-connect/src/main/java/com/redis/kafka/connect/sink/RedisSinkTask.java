@@ -378,7 +378,7 @@ public class RedisSinkTask extends SinkTask {
             throw new DataException("Could not serialize sink offset state", e);
         }
     }
-=======
+
 	private static final Logger log = LoggerFactory.getLogger(RedisSinkTask.class);
 
 	private static final String OFFSET_KEY_FORMAT = "com.redis.kafka.connect.sink.offset.%s.%s";
