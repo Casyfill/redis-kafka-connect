@@ -310,9 +310,18 @@ public class RedisSinkTask extends SinkTask {
 	@SuppressWarnings("unchecked")
 	private Map<byte[], byte[]> map(SinkRecord sinkRecord) {
 		Object value = sinkRecord.value();
+
+		// this clause is added to handle tombstones. Tombstones should
+		if (value == null) {
+			log.info("Value is null for {}. Thumbstone?", sinkRecord.key());
+			return null;
+		}
+
 		if (value instanceof Struct) {
 			Map<byte[], byte[]> body = new LinkedHashMap<>();
 			Struct struct = (Struct) value;
+			log.debug("Parsing Struct: {}", sinkRecord.key());
+
 			for (Field field : struct.schema().fields()) {
 				Object fieldValue = struct.get(field);
 				body.put(field.name().getBytes(config.getCharset()),
@@ -321,6 +330,8 @@ public class RedisSinkTask extends SinkTask {
 			return body;
 		}
 		if (value instanceof Map) {
+			log.debug("Parsing Map: {}", sinkRecord.key());
+
 			Map<String, Object> map = (Map<String, Object>) value;
 			Map<byte[], byte[]> body = new LinkedHashMap<>();
 			for (Map.Entry<String, Object> e : map.entrySet()) {
